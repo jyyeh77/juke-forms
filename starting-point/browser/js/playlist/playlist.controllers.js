@@ -12,7 +12,6 @@ juke.controller('PlaylistCtrl', function ($scope, PlaylistFactory, $state) {
 			console.log('$scope: ',$scope.currentId)
 			$state.go('playlist', {playlistId: $scope.currentId})
 		});
-		// /$scope.currentId = PlaylistFactory.getCurrentId()
 		
 		
 
@@ -22,7 +21,12 @@ juke.controller('PlaylistCtrl', function ($scope, PlaylistFactory, $state) {
 	}
 });
 
-juke.controller('SinglePlaylistCtrl', function($scope, PlaylistFactory, thePlaylist){
+juke.controller('SinglePlaylistCtrl', function($scope, PlaylistFactory, thePlaylist, theSongs, SongFactory){
 	$scope.playlist = thePlaylist;
+	$scope.songs = theSongs;
+
+	$scope.add = function(song){
+		PlaylistFactory.addSong($scope.playlist.id, song)
+	}
 
 })
