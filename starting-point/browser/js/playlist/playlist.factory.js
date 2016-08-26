@@ -25,34 +25,34 @@ juke.factory('PlaylistFactory', function ($http, SongFactory) {
 
 	PlaylistFactory.fetchById = function(id) {
 		return $http.get('/api/playlists/' + id)
-		.then(function(res){
-			res.data.songs.forEach(function(song){
+			.then(mutateData)
+		.then(function(playlist){
+			playlist.songs.forEach(function(song){
 				song = SongFactory.convert(song)
 			});
-			angular.copy(res.data.songs, cachedSongs)
-			return cachedSongs;
+			// cachedSongs = playlist.songs;
+			angular.copy(playlist.songs, cachedSongs)
+			playlist.songs = cachedSongs;
+			console.log("Cached songs: ", playlist.songs);
+			//playlist.songs !== cachedsongs
+			return playlist;
 		})
+
 	}
 
+	function mutateData(response){
+		return response.data;
+	}
 
 	PlaylistFactory.addSong = function(playlistId, song) {
 		return $http.post('/api/playlists/'+ playlistId +'/songs', song)
 		.then(function(res){
 			var newSong = res.data;
+			newSong = SongFactory.convert(newSong);
 			cachedSongs.push(newSong)
 			return newSong;
 		})
-
 	}
-
-
-
-	// PlaylistFactory.getCurrentId = function() {
-	// 	console.log(currentId);
-	// 	return currentId;
-	// }
-
-
 	return PlaylistFactory;
 
 });
