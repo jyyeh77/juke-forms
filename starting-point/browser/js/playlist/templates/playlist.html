@@ -26,8 +26,6 @@
     </form>
 </div>
 
-
-
   <table class='table' ng-show="playlist.songs.length">
     <thead>
       <tr>
@@ -46,7 +44,12 @@
         </td>
         <td>{{ song.name }}</td>
         <td><span ng-repeat="artist in song.artists">{{ artist.name }}{{ $last ? '' : ', ' }}</span></td>
-        <td>{{ song.genres.join(', ') }}</td>
+          <td>{{ song.genre }}</td>
+          <td>
+              <button type="button" class="btn btn-default btn-sm" ng-click="remove(song)">
+                  <span class="glyphicon glyphicon-remove"></span>
+              </button>
+          </td>
       </tr>
     </tbody>
   </table>

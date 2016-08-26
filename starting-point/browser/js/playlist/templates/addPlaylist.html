@@ -10,12 +10,15 @@
                            required>
                 </div>
             </div>
-            <div class="alert alert-warning"
-                 ng-show="playlistForm.playlist.$dirty && playlistForm.playlist.$invalid">Please enter a name
+            <div ng-show='playlistForm.playlist.$dirty' ng-messages="playlistForm.playlist.$error" role="alert">
+                <div ng-message="required">Please enter a name</div>
+                <div ng-message="maxlength">Please enter shorter name, cuz Nicole said so</div>
             </div>
+
             <div class="form-group">
                 <div class="col-xs-10 col-xs-offset-2">
-                    <button type="submit" class="btn btn-success" ng-click="assignPlaylist()" ng-disabled="!playlistController"
+                    <button type="submit" class="btn btn-success" ng-click="assignPlaylist()"
+                            ng-disabled="!playlistController"
                     >Create Playlist
                     </button>
                 </div>

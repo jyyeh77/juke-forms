@@ -21,7 +21,7 @@ juke.factory('PlaylistFactory', function ($http, SongFactory) {
 				angular.copy(res.data, cachedPlaylists);
 				return cachedPlaylists;
 			})
-	}
+	};
 
 	PlaylistFactory.fetchById = function(id) {
 		return $http.get('/api/playlists/' + id)
@@ -31,14 +31,14 @@ juke.factory('PlaylistFactory', function ($http, SongFactory) {
 				song = SongFactory.convert(song)
 			});
 			// cachedSongs = playlist.songs;
-			angular.copy(playlist.songs, cachedSongs)
+			angular.copy(playlist.songs, cachedSongs);
 			playlist.songs = cachedSongs;
 			console.log("Cached songs: ", playlist.songs);
 			//playlist.songs !== cachedsongs
 			return playlist;
 		})
 
-	}
+	};
 
 	function mutateData(response){
 		return response.data;
@@ -49,10 +49,18 @@ juke.factory('PlaylistFactory', function ($http, SongFactory) {
 		.then(function(res){
 			var newSong = res.data;
 			newSong = SongFactory.convert(newSong);
-			cachedSongs.push(newSong)
+			cachedSongs.push(newSong);
 			return newSong;
 		})
-	}
+	};
+
+	PlaylistFactory.removeSong = function (playlistId, song) {
+		return $http.delete('/api/playlists/' + playlistId + '/songs/' + song.id, song)
+			.then(function (res) {
+				var deletedSong = res.data;
+				cachedSongs.splice(cachedSongs.indexOf(deletedSong), 1);
+			})
+	};
 	return PlaylistFactory;
 
 });

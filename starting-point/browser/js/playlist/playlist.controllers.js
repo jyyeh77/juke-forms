@@ -9,7 +9,7 @@ juke.controller('PlaylistCtrl', function ($scope, PlaylistFactory, $state) {
 		PlaylistFactory.create($scope.newPlaylist)
 		.then(function(playlist){
 			$scope.currentId = playlist.id;
-			console.log('$scope: ',$scope.currentId)
+			console.log('$scope: ', $scope.currentId);
 			$state.go('playlist', {playlistId: $scope.currentId})
 		});
 		
@@ -31,7 +31,15 @@ juke.controller('SinglePlaylistCtrl', function($scope, PlaylistFactory, thePlayl
 				$scope.songController = null;
 				$scope.addSongsForm.song.$setPristine();
 			})
-	}
+	};
+
+	$scope.remove = function (song) {
+		PlaylistFactory.removeSong($scope.playlist.id, song)
+			.then(function () {
+				console.log("Deleted song!!!!!!!");
+			})
+
+	};
 
 	$scope.toggle = function (song) {
 		if (song !== PlayerFactory.getCurrentSong()) {
@@ -51,4 +59,4 @@ juke.controller('SinglePlaylistCtrl', function($scope, PlaylistFactory, thePlayl
 		return PlayerFactory.isPlaying() && PlayerFactory.getCurrentSong() === song;
 	};
 
-})
+});
